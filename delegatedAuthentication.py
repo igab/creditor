@@ -1,0 +1,13 @@
+import sys;
+import xml.etree.ElementTree as etree;
+import urllib;
+postData = sys.stdin.read();
+root = etree.XML(postData);
+username = root.find('username');
+password = root.find('password');
+sourceIp = root.find('sourceIp');
+url = 'http://v4dot1-simulation.cs7.force.com/printAuthentication';
+req = urllib.urlopen(url + '?username=' + username.text + '&password=' + password.text + '&sourceIp=' + sourceIp.text);
+print '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><AuthenticateResponse xmlns="urn:authentication.soap.sforce.com"><Authenticated>';
+print req.read();
+print '</Authenticated></AuthenticateResponse></soapenv:Body></soapenv:Envelope>';
